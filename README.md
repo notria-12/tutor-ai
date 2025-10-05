@@ -1,50 +1,149 @@
-# Welcome to your Expo app 👋
+# 🧮 Tutor de Matemática - App React Native
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Um aplicativo React Native inteligente que resolve equações matemáticas passo a passo usando a API do Google Gemini AI.
 
-## Get started
+## 📋 Sobre o Projeto
 
-1. Install dependencies
+Este app foi desenvolvido para ajudar estudantes e entusiastas de matemática a entender a resolução de equações de forma detalhada. Utilizando o poder da IA do Google Gemini, o app fornece explicações didáticas e passo a passo de como resolver diversos tipos de problemas matemáticos.
 
-   ```bash
-   npm install
-   ```
+### ✨ Funcionalidades
 
-2. Start the app
+- ✅ Interface intuitiva e moderna
+- ✅ Input de equações com teclado de símbolos matemáticos
+- ✅ Resolução passo a passo detalhada
+- ✅ Streaming de resposta em tempo real
+- ✅ Validação de entrada
+- ✅ Tratamento de erros
+- ✅ Estados de loading e feedback visual
+- ✅ Suporte para diversos tipos de equações (lineares, quadráticas, etc.)
 
-   ```bash
-   npx expo start
-   ```
+## 🚀 Como Começar
 
-In the output, you'll find options to open the app in a
+### Pré-requisitos
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Node.js (versão 16 ou superior)
+- npm ou yarn
+- Expo CLI
+- Chave da API do Google Gemini
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### 1. Instalação das Dependências
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Configuração da API do Gemini
 
-## Learn more
+1. Obtenha sua chave da API em: [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Copie o arquivo `.env.example` para `.env.local`:
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+cp .env.example .env.local
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+3. Edite o arquivo `.env.local` e adicione sua chave:
 
-## Join the community
+```env
+EXPO_PUBLIC_GEMINI_API_KEY=sua_chave_api_aqui
+```
 
-Join our community of developers creating universal apps.
+⚠️ **Importante**: Nunca compartilhe sua chave da API publicamente ou faça commit dela no Git!
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 3. Executar o App
+
+```bash
+npx expo start
+```
+
+Você pode abrir o app em:
+
+- 📱 [Expo Go](https://expo.dev/go) - Para testar rapidamente no seu celular
+- 🤖 [Android Emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- 🍎 [iOS Simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- 🌐 Web browser (pressione `w` no terminal)
+
+## 📁 Estrutura do Projeto
+
+```
+tutor-ai/
+├── app/
+│   └── index.tsx          # Tela principal do app
+├── services/
+│   └── tutor-gerator.js   # Serviço de integração com Gemini API
+├── styles/
+│   └── index.js           # Estilos globais do app
+├── .env.example           # Exemplo de configuração
+└── README.md              # Este arquivo
+```
+
+## 🎨 Tecnologias Utilizadas
+
+- **React Native** - Framework para desenvolvimento mobile
+- **Expo** - Plataforma para desenvolvimento React Native
+- **TypeScript** - Tipagem estática para JavaScript
+- **Google Gemini AI** - API de inteligência artificial
+- **React Hooks** - Gerenciamento de estado
+
+## 💡 Como Usar
+
+1. **Digite a equação**: Insira sua equação matemática no campo de texto
+2. **Use símbolos rápidos**: Clique nos botões de símbolos para inserir operadores matemáticos
+3. **Resolva**: Pressione o botão "Resolver" e aguarde
+4. **Veja a solução**: A resposta aparecerá em tempo real com explicação passo a passo
+
+### Exemplos de Equações
+
+- Equações lineares: `2x + 5 = 15`
+- Equações quadráticas: `x² - 4 = 0`
+- Sistemas de equações: `2x + y = 10 e x - y = 2`
+- Inequações: `3x - 7 > 8`
+- Problemas matemáticos em linguagem natural
+
+## 🔧 Desenvolvimento
+
+### Estrutura do Código
+
+O código está organizado e comentado seguindo boas práticas:
+
+- **Componentes**: Separação clara de responsabilidades
+- **Serviços**: Lógica de API isolada
+- **Estilos**: Design system com paleta de cores consistente
+- **Comentários**: Documentação JSDoc em todas as funções principais
+
+### Modificar Estilos
+
+Os estilos estão centralizados em `styles/index.js`. Você pode personalizar:
+
+- Cores (paleta definida no início do arquivo)
+- Tamanhos de fonte
+- Espaçamentos
+- Bordas e sombras
+
+## 🐛 Solução de Problemas
+
+### Erro: "Chave da API não configurada"
+
+- Verifique se o arquivo `.env.local` existe
+- Confirme que a variável `EXPO_PUBLIC_GEMINI_API_KEY` está definida
+- Reinicie o servidor Expo após criar o arquivo .env
+
+### Erro de conexão com a API
+
+- Verifique sua conexão com a internet
+- Confirme que a chave da API é válida
+- Verifique se há limites de uso da API
+
+## 📝 Licença
+
+Este projeto foi desenvolvido para fins educacionais.
+
+## 🤝 Contribuições
+
+Sugestões e melhorias são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
+
+## 📚 Recursos Adicionais
+
+- [Documentação do Expo](https://docs.expo.dev/)
+- [Documentação do React Native](https://reactnative.dev/)
+- [Google Gemini AI](https://ai.google.dev/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
