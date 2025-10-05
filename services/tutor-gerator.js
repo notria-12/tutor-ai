@@ -2,38 +2,30 @@
  * Serviço de Tutor de Matemática usando Google Gemini AI
  * 
  * Este módulo fornece funções para resolver equações matemáticas
- * utilizando a API do Google Gemini, retornando explicações detalhadas
- * passo a passo.
+ * utilizando a API do Google Gemini.
  */
 
 import { GoogleGenAI } from '@google/genai';
-import Constants from 'expo-constants';
 
 /**
  * Resolve uma equação matemática usando a API do Gemini
  * 
  * @param {string} equation - A equação matemática a ser resolvida
- * @param {function} onChunk - Callback chamado para cada chunk de resposta recebido
  * @returns {Promise<string>} - A solução completa da equação
  * @throws {Error} - Lança erro se a API falhar ou se a chave API não estiver configurada
  */
-export async function solveMathEquation(equation, onChunk = null) {
+export async function solveMathEquation(equation) {
   try {
-    // Obtém a chave da API do arquivo de configuração do Expo
-    const apiKey = Constants.expoConfig?.extra?.geminiApiKey || process.env.EXPO_PUBLIC_GEMINI_API_KEY;
-    
-    if (!apiKey) {
-      throw new Error('Chave da API do Gemini não configurada. Adicione EXPO_PUBLIC_GEMINI_API_KEY no arquivo .env');
-    }
-
     // Inicializa o cliente da API do Google Gemini
     const ai = new GoogleGenAI({
-      apiKey: apiKey,
+      apiKey: process.env.EXPO_PUBLIC_GEMINI_API_KEY,
     });
 
     // Configuração do modelo de IA
     const config = {
-      responseModalities: ['TEXT'], // Apenas texto para melhor compatibilidade com React Native
+      thinkingConfig: {
+        thinkingBudget: 0,
+      },
       systemInstruction: [
         {
           text: `Você é um tutor de matemática especializado. Dada uma equação ou problema matemático, 
@@ -50,7 +42,7 @@ Seja didático e explique cada passo do raciocínio.`,
     };
 
     // Modelo a ser utilizado
-    const model = 'gemini-2.0-flash-exp';
+    const model = 'gemini-2.5-flash-lite';
 
     // Conteúdo da requisição com a equação do usuário
     const contents = [
@@ -58,45 +50,31 @@ Seja didático e explique cada passo do raciocínio.`,
         role: 'user',
         parts: [
           {
-            text: `Resolva a seguinte equação ou problema matemático: ${equation}`,
+            text: equation,
           },
         ],
       },
     ];
 
-    // Faz a requisição para a API com streaming
-    const response = await ai.models.generateContentStream({
+    // Faz a requisição para a API
+    const response = await ai.models.generateContent({
       model,
       config,
       contents,
     });
 
-    let fullResponse = '';
-
-    // Processa cada chunk da resposta em streaming
-    for await (const chunk of response) {
-      // Verifica se o chunk contém dados válidos
-      if (!chunk.candidates || 
-          !chunk.candidates[0].content || 
-          !chunk.candidates[0].content.parts) {
-        continue;
-      }
-
-      // Extrai o texto do chunk
-      const chunkText = chunk.text || '';
-      fullResponse += chunkText;
-
-      // Chama o callback se fornecido (para atualização em tempo real da UI)
-      if (onChunk && chunkText) {
-        onChunk(chunkText);
-      }
+    // Extrai o resultado
+    const result = response?.candidates?.[0]?.content?.parts?.[0]?.text;
+    
+    if (!result) {
+      throw new Error('Resposta vazia da API');
     }
 
-    return fullResponse;
+    return result;
 
   } catch (error) {
     console.error('Erro ao resolver equação:', error);
-    throw new Error(`Falha ao processar a equação: ${error.message}`);
+    throw new Error(`Falha ao processar a equação: ${error.message || 'Erro desconhecido'}`);
   }
 }
 

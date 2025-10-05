@@ -263,6 +263,87 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
   },
 
+  loadingSubtext: {
+    marginTop: 8,
+    fontSize: 14,
+    color: colors.textLight,
+    opacity: 0.7,
+  },
+
+  // Indicador de streaming
+  streamingIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    backgroundColor: colors.white,
+    borderRadius: 12,
+    marginBottom: 20,
+    gap: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+
+  streamingText: {
+    fontSize: 14,
+    color: colors.primary,
+    fontWeight: '600',
+  },
+
+  // Container de exemplos
+  examplesContainer: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+
+  examplesTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.text,
+    marginBottom: 16,
+  },
+
+  examplesRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 12,
+  },
+
+  exampleButton: {
+    flex: 1,
+    backgroundColor: colors.background,
+    borderWidth: 2,
+    borderColor: colors.primary,
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  exampleText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: colors.primary,
+  },
+
   // Container de dicas
   tipsContainer: {
     backgroundColor: colors.white,

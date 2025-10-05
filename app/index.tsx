@@ -5,22 +5,21 @@
  * e receber soluções detalhadas passo a passo através da API Gemini.
  */
 
-import React, { useState, useRef } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import React, { useRef, useState } from 'react';
 import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
   ActivityIndicator,
+  Animated,
   KeyboardAvoidingView,
   Platform,
-  Alert,
-  Animated,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { styles } from '../styles';
 import { solveMathEquation, validateMathInput } from '../services/tutor-gerator';
+import { styles } from '../styles';
 
 export default function Index() {
   // Estado para armazenar a equação digitada pelo usuário
@@ -57,19 +56,11 @@ export default function Index() {
     setSolution('');
 
     try {
-      // Chama a API do Gemini com callback para streaming
-      const result = await solveMathEquation(
-        equation,
-        (chunk: string) => {
-          // Atualiza a solução em tempo real conforme os chunks chegam
-          setSolution((prev) => prev + chunk);
-        }
-      );
+      // Chama a API do Gemini
+      const result = await solveMathEquation(equation);
 
-      // Se não houver streaming, define a solução completa
-      if (!result) {
-        setError('Não foi possível obter uma resposta da API.');
-      }
+      // Define a solução completa
+      setSolution(result);
 
     } catch (err) {
       // Trata erros da API
@@ -216,10 +207,46 @@ export default function Index() {
         ) : null}
 
         {/* Indicador de carregamento */}
-        {loading && !solution ? (
+        {loading ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#6366f1" />
             <Text style={styles.loadingText}>Resolvendo sua equação...</Text>
+            <Text style={styles.loadingSubtext}>Aguarde enquanto a IA processa</Text>
+          </View>
+        ) : null}
+
+        {/* Exemplos rápidos */}
+        {!solution && !loading && !error ? (
+          <View style={styles.examplesContainer}>
+            <Text style={styles.examplesTitle}>📚 Exemplos Rápidos:</Text>
+            <View style={styles.examplesRow}>
+              <TouchableOpacity
+                style={styles.exampleButton}
+                onPress={() => setEquation('2x + 5 = 15')}
+              >
+                <Text style={styles.exampleText}>2x + 5 = 15</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.exampleButton}
+                onPress={() => setEquation('x² - 4 = 0')}
+              >
+                <Text style={styles.exampleText}>x² - 4 = 0</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.examplesRow}>
+              <TouchableOpacity
+                style={styles.exampleButton}
+                onPress={() => setEquation('3x - 7 > 8')}
+              >
+                <Text style={styles.exampleText}>3x - 7 &gt; 8</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.exampleButton}
+                onPress={() => setEquation('√(x + 3) = 5')}
+              >
+                <Text style={styles.exampleText}>√(x + 3) = 5</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         ) : null}
 
@@ -229,8 +256,9 @@ export default function Index() {
             <Text style={styles.tipsTitle}>💡 Dicas:</Text>
             <Text style={styles.tipsText}>
               • Use 'x' ou 'y' para variáveis{'\n'}
-              • Exemplos: "2x + 5 = 15", "x² - 4 = 0"{'\n'}
-              • Funciona com equações, inequações e problemas matemáticos
+              • Clique nos exemplos acima para testar{'\n'}
+              • Funciona com equações, inequações e problemas matemáticos{'\n'}
+              • Receba explicações detalhadas passo a passo
             </Text>
           </View>
         ) : null}
