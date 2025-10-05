@@ -87,17 +87,43 @@ export const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
+  // Wrapper do input com botão de limpar
+  inputWrapper: {
+    position: 'relative',
+  },
+
   input: {
     backgroundColor: colors.background,
     borderWidth: 2,
     borderColor: colors.border,
     borderRadius: 12,
     padding: 16,
+    paddingRight: 50, // Espaço para o botão de limpar
     fontSize: 18,
     color: colors.text,
     minHeight: 80,
     textAlignVertical: 'top',
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+  },
+
+  // Botão de limpar dentro do input
+  clearInputButton: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: colors.textLight,
+    alignItems: 'center',
+    justifyContent: 'center',
+    opacity: 0.8,
+  },
+
+  clearInputButtonText: {
+    color: colors.white,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 
   // Símbolos matemáticos
@@ -161,6 +187,25 @@ export const styles = StyleSheet.create({
 
   solveButton: {
     backgroundColor: colors.primary,
+  },
+
+  // Botão resolver em largura total
+  solveButtonFull: {
+    backgroundColor: colors.primary,
+    paddingVertical: 18,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 20,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
   },
 
   buttonDisabled: {
@@ -236,6 +281,78 @@ export const styles = StyleSheet.create({
     color: colors.text,
     lineHeight: 26,
     fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
+  },
+
+  // Estilos para solução formatada
+  solutionHeading1: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginTop: 16,
+    marginBottom: 8,
+  },
+
+  solutionHeading2: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginTop: 14,
+    marginBottom: 6,
+  },
+
+  solutionHeading3: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: colors.text,
+    marginTop: 12,
+    marginBottom: 6,
+  },
+
+  solutionTextFormatted: {
+    fontSize: 15,
+    color: colors.text,
+    lineHeight: 24,
+    marginBottom: 8,
+  },
+
+  bulletContainer: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    paddingLeft: 8,
+  },
+
+  bulletPoint: {
+    fontSize: 16,
+    color: colors.primary,
+    marginRight: 8,
+    fontWeight: 'bold',
+  },
+
+  bulletText: {
+    flex: 1,
+    fontSize: 15,
+    color: colors.text,
+    lineHeight: 22,
+  },
+
+  formulaContainer: {
+    backgroundColor: '#f0f4ff',
+    borderLeftWidth: 3,
+    borderLeftColor: colors.primary,
+    borderRadius: 8,
+    padding: 12,
+    marginVertical: 8,
+  },
+
+  formulaText: {
+    fontSize: 16,
+    color: colors.text,
+    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+    lineHeight: 24,
+  },
+
+  spacer: {
+    height: 12,
   },
 
   // Container de loading

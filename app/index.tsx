@@ -108,6 +108,117 @@ export default function Index() {
     setEquation((prev) => prev + symbol);
   };
 
+  /**
+   * Formata o texto da solução removendo marcações Markdown
+   * e aplicando formatação visual
+   */
+  const formatSolution = (text: string) => {
+    if (!text) return [];
+
+    const lines = text.split('\n');
+    const formattedBlocks: Array<{ type: string; content: string; level?: number }> = [];
+
+    lines.forEach((line) => {
+      const trimmedLine = line.trim();
+      
+      if (!trimmedLine) {
+        // Linha vazia - adiciona espaçamento
+        formattedBlocks.push({ type: 'space', content: '' });
+        return;
+      }
+
+      // Detecta títulos (###, ##, #)
+      if (trimmedLine.startsWith('###')) {
+        formattedBlocks.push({
+          type: 'heading3',
+          content: trimmedLine.replace(/^###\s*/, '').replace(/\*\*/g, ''),
+        });
+      } else if (trimmedLine.startsWith('##')) {
+        formattedBlocks.push({
+          type: 'heading2',
+          content: trimmedLine.replace(/^##\s*/, '').replace(/\*\*/g, ''),
+        });
+      } else if (trimmedLine.startsWith('#')) {
+        formattedBlocks.push({
+          type: 'heading1',
+          content: trimmedLine.replace(/^#\s*/, '').replace(/\*\*/g, ''),
+        });
+      }
+      // Detecta listas com bullet points
+      else if (trimmedLine.startsWith('*   ') || trimmedLine.startsWith('* ')) {
+        formattedBlocks.push({
+          type: 'bullet',
+          content: trimmedLine.replace(/^\*\s+/, '').replace(/\*\*/g, ''),
+        });
+      }
+      // Detecta fórmulas matemáticas ($...$)
+      else if (trimmedLine.includes('$')) {
+        formattedBlocks.push({
+          type: 'formula',
+          content: trimmedLine.replace(/\$/g, '').replace(/\\/g, ''),
+        });
+      }
+      // Texto normal
+      else {
+        formattedBlocks.push({
+          type: 'text',
+          content: trimmedLine.replace(/\*\*/g, ''),
+        });
+      }
+    });
+
+    return formattedBlocks;
+  };
+
+  const renderFormattedSolution = () => {
+    const blocks = formatSolution(solution);
+
+    return blocks.map((block, index) => {
+      switch (block.type) {
+        case 'heading1':
+          return (
+            <Text key={index} style={styles.solutionHeading1}>
+              {block.content}
+            </Text>
+          );
+        case 'heading2':
+          return (
+            <Text key={index} style={styles.solutionHeading2}>
+              {block.content}
+            </Text>
+          );
+        case 'heading3':
+          return (
+            <Text key={index} style={styles.solutionHeading3}>
+              {block.content}
+            </Text>
+          );
+        case 'bullet':
+          return (
+            <View key={index} style={styles.bulletContainer}>
+              <Text style={styles.bulletPoint}>•</Text>
+              <Text style={styles.bulletText}>{block.content}</Text>
+            </View>
+          );
+        case 'formula':
+          return (
+            <View key={index} style={styles.formulaContainer}>
+              <Text style={styles.formulaText}>{block.content}</Text>
+            </View>
+          );
+        case 'space':
+          return <View key={index} style={styles.spacer} />;
+        case 'text':
+        default:
+          return (
+            <Text key={index} style={styles.solutionTextFormatted}>
+              {block.content}
+            </Text>
+          );
+      }
+    });
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -132,16 +243,30 @@ export default function Index() {
         {/* Área de Input */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Equação Matemática:</Text>
-          <TextInput
-            style={styles.input}
-            value={equation}
-            onChangeText={setEquation}
-            placeholder="Ex: 2x + 5 = 15"
-            placeholderTextColor="#999"
-            multiline
-            numberOfLines={3}
-            editable={!loading}
-          />
+          
+          {/* Container do input com botão de limpar */}
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              value={equation}
+              onChangeText={setEquation}
+              placeholder="Ex: 2x + 5 = 15"
+              placeholderTextColor="#999"
+              multiline
+              numberOfLines={3}
+              editable={!loading}
+            />
+            
+            {/* Botão de limpar dentro do input */}
+            {equation.length > 0 && !loading ? (
+              <TouchableOpacity
+                style={styles.clearInputButton}
+                onPress={handleClear}
+              >
+                <Text style={styles.clearInputButtonText}>✕</Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
 
           {/* Teclado de símbolos matemáticos */}
           <View style={styles.symbolsContainer}>
@@ -161,33 +286,23 @@ export default function Index() {
           </View>
         </View>
 
-        {/* Botões de Ação */}
-        <View style={styles.buttonContainer}>
-          <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-            <TouchableOpacity
-              style={[styles.button, styles.solveButton, loading && styles.buttonDisabled]}
-              onPress={() => {
-                animateButton();
-                handleSolveEquation();
-              }}
-              disabled={loading || !equation.trim()}
-            >
-              {loading ? (
-                <ActivityIndicator color="#fff" />
-              ) : (
-                <Text style={styles.buttonText}>Resolver</Text>
-              )}
-            </TouchableOpacity>
-          </Animated.View>
-
+        {/* Botão Resolver (largura total) */}
+        <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
           <TouchableOpacity
-            style={[styles.button, styles.clearButton]}
-            onPress={handleClear}
-            disabled={loading}
+            style={[styles.solveButtonFull, loading && styles.buttonDisabled]}
+            onPress={() => {
+              animateButton();
+              handleSolveEquation();
+            }}
+            disabled={loading || !equation.trim()}
           >
-            <Text style={styles.clearButtonText}>Limpar</Text>
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.buttonText}>Resolver Equação</Text>
+            )}
           </TouchableOpacity>
-        </View>
+        </Animated.View>
 
         {/* Mensagem de Erro */}
         {error ? (
@@ -201,7 +316,7 @@ export default function Index() {
           <View style={styles.solutionContainer}>
             <Text style={styles.solutionTitle}>📝 Solução:</Text>
             <View style={styles.solutionContent}>
-              <Text style={styles.solutionText}>{solution}</Text>
+              {renderFormattedSolution()}
             </View>
           </View>
         ) : null}
