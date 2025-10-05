@@ -3,8 +3,6 @@
 Um aplicativo React Native inteligente que resolve equações matemáticas passo a passo usando a API do Google Gemini AI.
 
 
-
-
 ### 📸 Screenshots
 
 <div align="center">
@@ -13,7 +11,6 @@ Um aplicativo React Native inteligente que resolve equações matemáticas passo
   <img src="docs/screenshot-3.png" alt="Resultado" width="250"/>
 </div>
 
-> **💡 Dica:** Crie uma pasta `docs/` na raiz do projeto e adicione seus screenshots lá.
 
 ## 📋 Sobre o Projeto
 
