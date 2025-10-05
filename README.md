@@ -2,20 +2,36 @@
 
 Um aplicativo React Native inteligente que resolve equações matemáticas passo a passo usando a API do Google Gemini AI.
 
+
+
+
+### 📸 Screenshots
+
+<div align="center">
+  <img src="docs/screenshot-1.png" alt="Tela Principal" width="250"/>
+  <img src="docs/screenshot-2.png" alt="Resolução" width="250"/>
+  <img src="docs/screenshot-3.png" alt="Resultado" width="250"/>
+</div>
+
+> **💡 Dica:** Crie uma pasta `docs/` na raiz do projeto e adicione seus screenshots lá.
+
 ## 📋 Sobre o Projeto
 
 Este app foi desenvolvido para ajudar estudantes e entusiastas de matemática a entender a resolução de equações de forma detalhada. Utilizando o poder da IA do Google Gemini, o app fornece explicações didáticas e passo a passo de como resolver diversos tipos de problemas matemáticos.
 
 ### ✨ Funcionalidades
 
-- ✅ Interface intuitiva e moderna
-- ✅ Input de equações com teclado de símbolos matemáticos
-- ✅ Resolução passo a passo detalhada
-- ✅ Streaming de resposta em tempo real
-- ✅ Validação de entrada
-- ✅ Tratamento de erros
-- ✅ Estados de loading e feedback visual
-- ✅ Suporte para diversos tipos de equações (lineares, quadráticas, etc.)
+- ✅ **Interface intuitiva e moderna** com design profissional
+- ✅ **Teclado de símbolos matemáticos** para facilitar a digitação
+- ✅ **Botão de limpar integrado** ao campo de input
+- ✅ **Exemplos rápidos** para testar o app instantaneamente
+- ✅ **Resolução passo a passo detalhada** com formatação inteligente
+- ✅ **Formatação automática de Markdown** para melhor legibilidade
+- ✅ **Destaque de fórmulas matemáticas** em containers especiais
+- ✅ **Validação de entrada** antes de processar
+- ✅ **Tratamento robusto de erros** com mensagens claras
+- ✅ **Estados de loading** com feedback visual constante
+- ✅ **Suporte para diversos tipos** de equações (lineares, quadráticas, radicais, etc.)
 
 ## 🚀 Como Começar
 
